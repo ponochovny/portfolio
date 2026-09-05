@@ -13,8 +13,8 @@ export default defineNuxtConfig({
     componentDir: "@/shared/ui",
   },
   sanity: {
-    projectId: import.meta.env.SANITY_PROJECT_ID,
-    dataset: import.meta.env.SANITY_DATASET,
+    projectId: process.env.SANITY_PROJECT_ID,
+    dataset: process.env.SANITY_DATASET,
     apiVersion: "2024-06-15",
     useCdn: true,
     typegen: {
@@ -23,9 +23,9 @@ export default defineNuxtConfig({
     },
     visualEditing: {
       studioUrl:
-        import.meta.env.SANITY_STUDIO_URL ||
+        process.env.SANITY_STUDIO_URL ||
         "https://ponochovny-portfolio.sanity.studio",
-      token: import.meta.env.SANITY_STUDIO_TOKEN || "",
+      token: process.env.SANITY_STUDIO_TOKEN || "",
       stega: true,
       zIndex: 51,
     },
