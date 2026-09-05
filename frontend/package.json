@@ -13,6 +13,7 @@
     "@lucide/vue": "^1.41.0",
     "@nuxt/image": "^2.1.0",
     "@nuxtjs/sanity": "^2.5.0",
+    "@sanity/client": "^7.27.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "nuxt": "^4.5.2",

@@ -16,7 +16,7 @@ const slug = route.params.slug as string;
 const { data: project } = await useProject(slug);
 
 const title = project.value
-  ? `${project.value.title} — кейс ${profile.name}`
+  ? `${project.value.title} — project by ${profile.name}`
   : "Project not found";
 
 useSeoMeta({
