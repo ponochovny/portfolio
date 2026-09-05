@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     apiVersion: "2024-06-15",
     useCdn: true,
     typegen: {
-      enabled: import.meta.env.NODE_ENV === "development",
+      enabled: true,
       schemaTypesPath: "../sanity/schemaTypes",
     },
     visualEditing: {
