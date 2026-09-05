@@ -17,6 +17,18 @@ export default defineNuxtConfig({
     dataset: import.meta.env.SANITY_DATASET,
     apiVersion: "2024-06-15",
     useCdn: true,
+    typegen: {
+      enabled: import.meta.env.NODE_ENV === "development",
+      schemaTypesPath: "../sanity/schemaTypes",
+    },
+    visualEditing: {
+      studioUrl:
+        import.meta.env.SANITY_STUDIO_URL ||
+        "https://ponochovny-portfolio.sanity.studio",
+      token: import.meta.env.SANITY_STUDIO_TOKEN || "",
+      stega: true,
+      zIndex: 51,
+    },
   },
 
   routeRules: {
