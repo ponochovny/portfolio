@@ -71,28 +71,49 @@ onBeforeUnmount(() => {
   }
   window.removeEventListener("keydown", onKeydown);
 });
+
+/**
+ * Bento grid layout logic:
+ * Pattern repeats every 8 items:
+ * 0: Big image (col-span-2)
+ * 1, 2: Two small items (col-span-1 each)
+ * 3: Big image (col-span-2)
+ * 4, 5, 6, 7: Four small items (col-span-1 each, forming 2x2 rows)
+ */
+const getBentoCardClasses = (index: number, total: number) => {
+  const pos = index % 8;
+  const isLast = index === total - 1;
+
+  // Positions 0 and 3 — big items spanning full width
+  if (pos === 0 || pos === 3) {
+    return "sm:col-span-2";
+  }
+
+  // If small item is the last in the gallery,
+  // it stretches to full width to avoid leaving an empty half of the row
+  if ((pos === 1 || pos === 4 || pos === 6) && isLast) {
+    return "sm:col-span-2";
+  }
+
+  // All others - standard small cards (1 column)
+  return "sm:col-span-1";
+};
 </script>
 
 <template>
   <div v-if="items?.length" class="space-y-4">
-    <!-- Gallery Grid -->
-    <div
-      class="grid gap-4"
-      :class="{
-        'grid-cols-1': items.length === 1,
-        'grid-cols-1 sm:grid-cols-2': items.length === 2,
-        'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3': items.length >= 3,
-      }"
-    >
+    <!-- Bento Grid -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <button
         v-for="(item, index) in items"
         :key="item._key || index"
         type="button"
         :aria-label="`Open ${item.alt || `${projectTitle} gallery image ${index + 1}`} in fullscreen`"
-        class="group relative block w-full cursor-pointer overflow-hidden rounded-lg border border-border bg-surface text-left transition-all duration-300 hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-        @click="openLightbox(index)"
+        class="group relative flex w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-border/80 bg-card text-left transition-all duration-300 hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        :class="getBentoCardClasses(index, items.length)"
+        @click="openLightbox(index % items.length)"
       >
-        <div class="aspect-video w-full overflow-hidden bg-muted/20">
+        <div class="relative aspect-video w-full overflow-hidden bg-muted/20">
           <NuxtImg
             v-if="item.url"
             :src="item.url"
@@ -100,25 +121,29 @@ onBeforeUnmount(() => {
             loading="lazy"
             class="size-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-105"
           />
-        </div>
 
-        <!-- Hover overlay -->
-        <div
-          class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 group-hover:opacity-100"
-        >
+          <!-- Hover Overlay -->
           <div
-            class="flex size-10 items-center justify-center rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur-sm"
+            class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover:opacity-100"
           >
-            <ExpandIcon class="size-5" />
+            <div
+              class="flex size-10 scale-90 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-100"
+            >
+              <ExpandIcon class="size-5" />
+            </div>
           </div>
-        </div>
 
-        <!-- Optional caption in thumbnail -->
-        <div
-          v-if="item.caption"
-          class="p-3 text-xs text-muted-foreground transition-colors group-hover:text-foreground"
-        >
-          {{ item.caption }}
+          <!-- Optional Caption badge -->
+          <div
+            v-if="item.caption"
+            class="pointer-events-none absolute inset-x-3 bottom-3 z-10"
+          >
+            <span
+              class="inline-block max-w-full truncate rounded-md border border-white/10 bg-black/60 px-2.5 py-1 text-xs text-white/90 shadow-sm backdrop-blur-md"
+            >
+              {{ item.caption }}
+            </span>
+          </div>
         </div>
       </button>
     </div>
@@ -142,7 +167,7 @@ onBeforeUnmount(() => {
         >
           <!-- Top bar: counter & close -->
           <div
-            class="absolute top-4 inset-x-4 flex items-center justify-between text-white/80"
+            class="absolute inset-x-4 top-4 flex items-center justify-between text-white/80"
           >
             <span class="font-mono text-xs tracking-wider">
               {{ activeIndex + 1 }} / {{ items.length }}
