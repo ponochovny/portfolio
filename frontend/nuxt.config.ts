@@ -36,8 +36,8 @@ export default defineNuxtConfig({
     "/about": { prerender: true },
 
     // CMS dynamic sections cached with ISR (revalidates via webhook or 1 hour fallback TTL)
-    "/": { isr: 3600 },
-    "/projects/**": { isr: 3600 },
+    "/": { isr: true },
+    "/projects/**": { isr: true },
 
     // API endpoints and Sanity Studio Visual Editing preview routes (never cached)
     "/api/**": { cache: false },

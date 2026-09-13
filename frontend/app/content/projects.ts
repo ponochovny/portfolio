@@ -28,6 +28,12 @@ export type Project = {
   featured: boolean;
   tech: string[];
   cover: string;
+  gallery?: {
+    _key?: string;
+    url: string;
+    alt?: string;
+    caption?: string;
+  }[];
   overview: string[];
   features: ProjectFeature[];
   challenges: ProjectFeature[];

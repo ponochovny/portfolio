@@ -65,11 +65,17 @@ export const useProject = async (slug: string) => {
     defineQuery(`*[_type == "project" && slug.current == $slug][0] {
     ...,
     "coverUrl": cover.asset->url,
+    gallery[] {
+      _key,
+      alt,
+      caption,
+      "url": asset->url
+    },
     tech[]-> {
       title,
       "iconUrl": icon.asset->url
     },
-      "slug": slug.current
+    "slug": slug.current
   }`);
 
   const { data, pending, error } = await useSanityQuery<ProjectQueryResult>(

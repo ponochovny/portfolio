@@ -3,6 +3,7 @@ import { ArrowLeftIcon, ArrowRightIcon, ExternalLinkIcon } from "@lucide/vue";
 import { profile } from "~/content/profile";
 import { getNeighbours, getProject } from "~/content/projects";
 import FeatureList from "~/entities/project/ui/feature-list.vue";
+import ProjectGallery from "~/entities/project/ui/project-gallery.vue";
 import Section from "~/entities/project/ui/section.vue";
 import LazyVideo from "~/widgets/lazy-video.vue";
 import RepoStats from "~/widgets/repo-stats.vue";
@@ -173,6 +174,17 @@ const { prev, next } = getNeighbours(project.value?.slug ?? "");
         :id="project?.video?.id || ''"
         :title="project?.video?.title || ''"
         :poster="project?.coverUrl || ''"
+      />
+    </Section>
+
+    <Section
+      v-if="project?.gallery?.length"
+      label="Gallery"
+      title="Screenshots & media"
+    >
+      <ProjectGallery
+        :items="project.gallery"
+        :project-title="project.title || ''"
       />
     </Section>
 

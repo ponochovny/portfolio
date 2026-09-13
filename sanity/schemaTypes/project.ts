@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'project',
@@ -21,12 +21,14 @@ export default defineType({
     defineField({
       name: 'summary',
       title: 'Summary',
+      description: 'Add summary of the project',
       type: 'text',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'year',
       title: 'Year',
+      description: 'Year the project was completed',
       type: 'number',
       validation: (Rule) => Rule.required(),
     }),
@@ -38,6 +40,7 @@ export default defineType({
     defineField({
       name: 'featured',
       title: 'Featured Project',
+      description: 'Set to true to feature this project on the homepage',
       type: 'boolean',
       initialValue: false,
     }),
@@ -54,6 +57,34 @@ export default defineType({
       options: {hotspot: true},
     }),
     defineField({
+      name: 'gallery',
+      title: 'Gallery',
+      type: 'array',
+      options: {
+        layout: 'grid',
+      },
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative Text',
+              description: 'Important for SEO and accessibility.',
+            }),
+            defineField({
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+              description: 'Optional caption displayed below the image.',
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'overview',
       title: 'Overview',
       type: 'array',
@@ -62,6 +93,7 @@ export default defineType({
     defineField({
       name: 'features',
       title: 'Features',
+      description: 'Add key features of the project',
       type: 'array',
       of: [
         {
@@ -76,6 +108,7 @@ export default defineType({
     defineField({
       name: 'challenges',
       title: 'Challenges',
+      description: 'Add key challenges of the project',
       type: 'array',
       of: [
         {
@@ -90,6 +123,7 @@ export default defineType({
     defineField({
       name: 'metrics',
       title: 'Metrics',
+      description: 'Add key metrics of the project',
       type: 'object',
       fields: [
         defineField({name: 'performance', type: 'number', title: 'Performance (0-100)'}),
@@ -103,6 +137,7 @@ export default defineType({
     defineField({
       name: 'links',
       title: 'Links',
+      description: 'Add links to the project',
       type: 'object',
       fields: [
         defineField({name: 'demo', type: 'url', title: 'Demo URL'}),
@@ -112,9 +147,15 @@ export default defineType({
     defineField({
       name: 'video',
       title: 'Video',
+      description: 'Add video to the project',
       type: 'object',
       fields: [
-        defineField({name: 'provider', type: 'string', title: 'Provider', options: {list: ['youtube', 'vimeo']}}),
+        defineField({
+          name: 'provider',
+          type: 'string',
+          title: 'Provider',
+          options: {list: ['youtube', 'vimeo']},
+        }),
         defineField({name: 'id', type: 'string', title: 'Video ID'}),
         defineField({name: 'title', type: 'string', title: 'Title'}),
       ],
