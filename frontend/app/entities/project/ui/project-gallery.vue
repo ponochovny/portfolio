@@ -84,10 +84,12 @@ onBeforeUnmount(() => {
         'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3': items.length >= 3,
       }"
     >
-      <div
+      <button
         v-for="(item, index) in items"
         :key="item._key || index"
-        class="group relative cursor-pointer overflow-hidden rounded-lg border border-border bg-surface transition-all duration-300 hover:border-border-strong hover:shadow-lg"
+        type="button"
+        :aria-label="`Open ${item.alt || `${projectTitle} gallery image ${index + 1}`} in fullscreen`"
+        class="group relative block w-full cursor-pointer overflow-hidden rounded-lg border border-border bg-surface text-left transition-all duration-300 hover:border-border-strong hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         @click="openLightbox(index)"
       >
         <div class="aspect-video w-full overflow-hidden bg-muted/20">
@@ -118,7 +120,7 @@ onBeforeUnmount(() => {
         >
           {{ item.caption }}
         </div>
-      </div>
+      </button>
     </div>
 
     <!-- Lightbox Modal -->

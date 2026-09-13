@@ -65,7 +65,7 @@ export const useProject = async (slug: string) => {
     defineQuery(`*[_type == "project" && slug.current == $slug][0] {
     ...,
     "coverUrl": cover.asset->url,
-    gallery[] {
+    gallery[defined(asset)] {
       _key,
       alt,
       caption,

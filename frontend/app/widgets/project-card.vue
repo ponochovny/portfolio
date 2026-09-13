@@ -3,7 +3,6 @@
 import ScoreBadges from "./score-badges.vue";
 import RepoStats from "./repo-stats.vue";
 import { ArrowUpRightIcon } from "@lucide/vue";
-import type { ProjectQueryResult } from "#build/types/sanity-typegen.js";
 
 defineProps<{
   project: ProjectQueryResult;
