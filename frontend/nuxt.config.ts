@@ -32,13 +32,13 @@ export default defineNuxtConfig({
 	},
 
 	routeRules: {
-		// Static pages pre-rendered at build time
-		'/about': { prerender: true },
+		// CMS pages are refreshed periodically so published Sanity changes appear in production.
+		'/': { isr: 300 },
+		'/projects': { isr: 300 },
+		'/projects/**': { isr: 300 },
 
-		// CMS dynamic sections cached with ISR
-		'/': { isr: true },
-		'/projects': { isr: 3600 }, // Cache for 1 hour
-		'/projects/**': { isr: true },
+		// Static page pre-rendered at build time
+		'/about': { prerender: true },
 
 		// API endpoints and Sanity Studio Visual Editing preview routes (never cached)
 		'/api/**': { cache: false },
